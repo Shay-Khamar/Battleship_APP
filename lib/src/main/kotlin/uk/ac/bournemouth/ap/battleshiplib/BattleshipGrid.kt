@@ -33,7 +33,7 @@ interface BattleshipGrid {
     fun shootAt(column: Int, row: Int): GuessResult
 
     /** Shortcut for using with coordinates. Returns the cell at the given coordinate. */
-    fun shootAt(coordinate: Coordinate): GuessResult = shootAt(coordinate.x, coordinate.y)
+    //fun shootAt(coordinate: Coordinate): GuessResult = shootAt(coordinate.x, coordinate.y)
 
     /**
      * Sequence of all coordinates in the grid. This helps with bulk operations.

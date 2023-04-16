@@ -6,6 +6,8 @@ interface BattleshipOpponent {
     /**
      * The amount of columns in the game grid (how wide is the grid).
      */
+    //Columnns and rows denote the size of the GRID So that be 10x10 as an example
+    //These values can then be used to creat a 2D array GRID
     val columns: Int
 
     /**
@@ -16,12 +18,16 @@ interface BattleshipOpponent {
     /**
      * Get the list of ships for this opponent
      */
+    //This variable then contains a set list of ships that the the opponent possess, It also has the values
+    //
     val ships: List<Ship>
 
     /**
      * Determine the ship at the given position. Note that subclasses could specialise the return
      * type to be a shipInfo of a subtype of Ship.
      */
+    // This takes in a column and row from the grid and returns information about a ship that is there
+    //However the question mark means that the return type could be null because there may be nothing there to return
     fun shipAt(column: Int, row: Int): ShipInfo<Ship>?
 
     /**

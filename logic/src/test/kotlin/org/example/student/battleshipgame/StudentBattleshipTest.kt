@@ -1,17 +1,19 @@
 package org.example.student.battleshipgame
 
+import StudentShip
+import myBattleShipOpponent
 import uk.ac.bournemouth.ap.battleshiplib.*
 import uk.ac.bournemouth.ap.battleshiplib.test.BattleshipTest
 import uk.ac.bournemouth.ap.lib.matrix.boolean.BooleanMatrix
 import kotlin.random.Random
 
-class StudentBattleshipTest : BattleshipTest</*YourShipType*/Ship>() {
+class StudentBattleshipTest : BattleshipTest</*YourShipType*/StudentShip>() {
     override fun createOpponent(
         columns: Int,
         rows: Int,
-        ships: List</*YourShipType*/Ship>
+        ships: List</*YourShipType*/StudentShip>
     ): /*YourOpponentType*/BattleshipOpponent {
-        return TODO("Create an instance of StudentBattleshipOpponent with the dimensions and ships")
+        return myBattleShipOpponent(columns, rows, ships)
     }
 
     override fun transformShip(sourceShip: Ship): /*YourShipType*/Ship {
