@@ -35,11 +35,16 @@ class studentBattleShipGrid(override val rows: Int = DEFAULT_ROWS , override val
        TODO("Not yet implemented")
     }
 
+    private val gameChangeListeners = mutableListOf<BattleshipGrid.BattleshipGridListener>()
+
     override fun addOnGridChangeListener(listener: BattleshipGrid.BattleshipGridListener) {
-        TODO("Not yet implemented")
+        if (listener !in gameChangeListeners) {
+            gameChangeListeners.add(listener)
+        }
     }
 
-    override fun removeOnGridChangeListener(listener: BattleshipGrid.BattleshipGridListener) {
-        TODO("Not yet implemented")
-    }
+        override fun removeOnGridChangeListener(listener: BattleshipGrid.BattleshipGridListener) {
+            gameChangeListeners.remove(listener)
+
+        }
 }
