@@ -6,8 +6,6 @@ class studentBattleShipGrid(override val rows: Int = DEFAULT_ROWS , override val
 
     // Create a 2D array of variable rows and columns, each index contains the value UNSET By default
     public var dataGrid: Array<Array<GuessCell>> = Array(rows) { Array(columns) { GuessCell.UNSET } }
-    val opponentShips: List<Ship> get() = opponent.ships
-
     // Creates a boolean array intialized to false, based off the amount ships the oppnent has
     override val shipsSunk: BooleanArray
     get() = BooleanArray(opponent.ships.size)
