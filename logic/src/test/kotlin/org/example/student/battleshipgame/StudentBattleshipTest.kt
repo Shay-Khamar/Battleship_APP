@@ -1,7 +1,7 @@
 package org.example.student.battleshipgame
 
+import MyBattleShipOpponent
 import StudentShip
-import myBattleShipOpponent
 import uk.ac.bournemouth.ap.battleshiplib.*
 import uk.ac.bournemouth.ap.battleshiplib.test.BattleshipTest
 import uk.ac.bournemouth.ap.lib.matrix.boolean.BooleanMatrix
@@ -12,8 +12,8 @@ class StudentBattleshipTest : BattleshipTest</*YourShipType*/StudentShip>() {
         columns: Int,
         rows: Int,
         ships: List</*YourShipType*/StudentShip>
-    ): /*YourOpponentType*/myBattleShipOpponent {
-        return myBattleShipOpponent(columns, rows, ships)
+    ): /*YourOpponentType*/MyBattleShipOpponent{
+        return MyBattleShipOpponent(columns, rows, ships)
     }
 
     override fun transformShip(sourceShip: Ship): /*YourShipType*/StudentShip {
@@ -25,7 +25,7 @@ class StudentBattleshipTest : BattleshipTest</*YourShipType*/StudentShip>() {
         rows: Int,
         shipSizes: IntArray,
         random: Random
-    ): /* TODO YourOpponentType*/myBattleShipOpponent {
+    ): /* TODO YourOpponentType*/MyBattleShipOpponent {
         // Note that the passing of random allows for repeatable testing
         return TODO("Create an instance of StudentBattleshipOpponent for the given game size, " +
                 "target ship sizes and random generator")
