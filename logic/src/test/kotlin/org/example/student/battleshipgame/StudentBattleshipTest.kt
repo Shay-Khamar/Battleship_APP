@@ -1,9 +1,8 @@
 package org.example.student.battleshipgame
-
-import MyBattleShipOpponent
 import StudentShip
 import uk.ac.bournemouth.ap.battleshiplib.*
 import uk.ac.bournemouth.ap.battleshiplib.test.BattleshipTest
+import uk.ac.bournemouth.ap.battleshiplogic.MyBattleShipOpponent
 import uk.ac.bournemouth.ap.lib.matrix.boolean.BooleanMatrix
 import kotlin.random.Random
 
@@ -17,7 +16,7 @@ class StudentBattleshipTest : BattleshipTest</*YourShipType*/StudentShip>() {
     }
 
     override fun transformShip(sourceShip: Ship): /*YourShipType*/StudentShip {
-        return StudentShip(top, left, bottom, right)
+        return StudentShip()
     }
 
     override fun createOpponent(

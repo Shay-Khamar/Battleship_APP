@@ -1,9 +1,10 @@
+package uk.ac.bournemouth.ap.battleshiplogic
 import uk.ac.bournemouth.ap.battleshiplib.*
 import uk.ac.bournemouth.ap.battleshiplib.BattleshipGrid.Companion.DEFAULT_COLUMNS
 import uk.ac.bournemouth.ap.battleshiplib.BattleshipGrid.Companion.DEFAULT_ROWS
 import uk.ac.bournemouth.ap.lib.matrix.MutableMatrix
 
-class studentBattleShipGrid(override val rows: Int = DEFAULT_ROWS , override val columns: Int = DEFAULT_COLUMNS, override val opponent: BattleshipOpponent): BattleshipGrid {
+class StudentBattleShipGrid(override val rows: Int = DEFAULT_ROWS , override val columns: Int = DEFAULT_COLUMNS, override val opponent: BattleshipOpponent): BattleshipGrid {
 
     // Create a 2D array of variable rows and columns, each index contains the value UNSET By default
     val dataGrid = MutableMatrix<GuessCell>(columns, rows, GuessCell.UNSET)
@@ -20,7 +21,7 @@ class studentBattleShipGrid(override val rows: Int = DEFAULT_ROWS , override val
     override fun get(column: Int, row: Int): GuessCell {
         require(column in 0 until columns && row in 0 until rows) { "Invalid cell" }
         //Note to self Use this to refer to a certain point on the grid
-        return dataGrid[column, row]
+        return dataGrid[column,row]
     }
     //With the shootAt function Takes in user Input so a point on the grid
     //Checks the list of Ships
@@ -31,7 +32,13 @@ class studentBattleShipGrid(override val rows: Int = DEFAULT_ROWS , override val
     //If so Return Sink
     //Else Return HIT
     override fun shootAt(column: Int, row: Int): GuessResult {
-       TODO("Not yet implemented")
+       require(column in 0 until columns && row in 0 until rows) {"Invalid Cell"}
+        val cell = dataGrid[column,row]
+        if(cell != GuessCell.UNSET){
+            throw IllegalArgumentException("Cell has already been shot at")
+        }
+
+
     }
 
     private val gameChangeListeners = mutableListOf<BattleshipGrid.BattleshipGridListener>()
