@@ -31,16 +31,19 @@ class StudentBattleShipGrid(override val rows: Int = DEFAULT_ROWS , override val
     //Check that ships stored positions to determine if they have all been it
     //If so Return Sink
     //Else Return HIT
+
+
     override fun shootAt(column: Int, row: Int): GuessResult {
-       require(column in 0 until columns && row in 0 until rows) {"Invalid Cell"}
-        val cell = dataGrid[column,row]
-        if(cell != GuessCell.UNSET){
-            throw IllegalArgumentException("Cell has already been shot at")
+        require(column in 0 until columns && row in 0 until rows) { "Invalid cell" }
+        val cell = dataGrid[column, row]
+        val shipInfo = opponent.shipAt(column, row)
+        if (cell == shipInfo ){
+            return GuessResult.HIT
         }
 
 
-    }
 
+    }
     private val gameChangeListeners = mutableListOf<BattleshipGrid.BattleshipGridListener>()
 
     override fun addOnGridChangeListener(listener: BattleshipGrid.BattleshipGridListener) {
