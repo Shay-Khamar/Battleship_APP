@@ -10,7 +10,7 @@ import android.graphics.Paint.Style
 import android.graphics.Typeface
 
 private val colCount get() = 10
-private val rowCount get() = 10
+private val rowCount get() = opponent.rows
 private val squareSize = 200f
 private val margin = 50f
 private val cellSize = (squareSize - margin * 2) / 10

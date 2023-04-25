@@ -1,5 +1,6 @@
 package uk.ac.bournemouth.ap.battleshiplogic
 import uk.ac.bournemouth.ap.battleshiplib.BattleshipOpponent
+import uk.ac.bournemouth.ap.battleshiplib.Ship
 import kotlin.random.Random
 
 class MyBattleShipOpponent(override val rows: Int, override val columns: Int, override val ships: List<StudentShip>): BattleshipOpponent {
@@ -26,6 +27,8 @@ class MyBattleShipOpponent(override val rows: Int, override val columns: Int, ov
         }
 
     }
+
+    data class ShipInfo<out S: StudentShip>(val index: Int, val ship: S)
 
 }
 
