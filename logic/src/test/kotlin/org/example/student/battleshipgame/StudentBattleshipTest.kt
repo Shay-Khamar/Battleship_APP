@@ -1,8 +1,9 @@
 package org.example.student.battleshipgame
-import StudentShip
+import uk.ac.bournemouth.ap.battleshiplogic.StudentShip
 import uk.ac.bournemouth.ap.battleshiplib.*
 import uk.ac.bournemouth.ap.battleshiplib.test.BattleshipTest
 import uk.ac.bournemouth.ap.battleshiplogic.MyBattleShipOpponent
+import uk.ac.bournemouth.ap.battleshiplogic.StudentBattleShipGrid
 import uk.ac.bournemouth.ap.lib.matrix.boolean.BooleanMatrix
 import kotlin.random.Random
 

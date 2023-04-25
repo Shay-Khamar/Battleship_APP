@@ -1,5 +1,4 @@
 package uk.ac.bournemouth.ap.battleshiplogic
-import StudentShip
 import uk.ac.bournemouth.ap.battleshiplib.BattleshipOpponent
 import kotlin.random.Random
 
