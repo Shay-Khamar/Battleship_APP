@@ -1,4 +1,6 @@
 package org.example.student.battleshipgame
+import sun.jvm.hotspot.oops.CellTypeState.bottom
+import sun.jvm.hotspot.oops.CellTypeState.top
 import uk.ac.bournemouth.ap.battleshiplogic.StudentShip
 import uk.ac.bournemouth.ap.battleshiplib.*
 import uk.ac.bournemouth.ap.battleshiplib.test.BattleshipTest
@@ -17,7 +19,7 @@ class StudentBattleshipTest : BattleshipTest</*YourShipType*/StudentShip>() {
     }
 
     override fun transformShip(sourceShip: Ship): /*YourShipType*/StudentShip {
-        return StudentShip()
+        return StudentShip(sourceShip.top, sourceShip.left, sourceShip.bottom, sourceShip.right)
     }
 
     override fun createOpponent(
@@ -27,8 +29,7 @@ class StudentBattleshipTest : BattleshipTest</*YourShipType*/StudentShip>() {
         random: Random
     ): /* TODO YourOpponentType*/MyBattleShipOpponent {
         // Note that the passing of random allows for repeatable testing
-        return TODO("Create an instance of StudentBattleshipOpponent for the given game size, " +
-                "target ship sizes and random generator")
+        return MyBattleShipOpponent(rows, columns,shipSizes,random)
     }
 
     override fun createGrid(

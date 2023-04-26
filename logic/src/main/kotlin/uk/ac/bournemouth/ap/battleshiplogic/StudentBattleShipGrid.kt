@@ -48,7 +48,9 @@ class StudentBattleShipGrid( override val opponent: BattleshipOpponent): Battles
             GuessResult.HIT(shipIndex)
 
         }else{
+            dataGrid[column,row] = GuessCell.MISS
             return GuessResult.MISS
+
         }
 
     }
