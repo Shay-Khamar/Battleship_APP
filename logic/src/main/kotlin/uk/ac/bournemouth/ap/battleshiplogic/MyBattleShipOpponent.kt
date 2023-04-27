@@ -1,15 +1,25 @@
 package uk.ac.bournemouth.ap.battleshiplogic
+import uk.ac.bournemouth.ap.battleshiplib.BattleshipGrid
 import uk.ac.bournemouth.ap.battleshiplib.BattleshipOpponent
 import uk.ac.bournemouth.ap.battleshiplib.Ship
 import kotlin.random.Random
 
-class MyBattleShipOpponent(override val rows: Int, override val columns: Int, override val ships: List<StudentShip>): BattleshipOpponent {
+class MyBattleShipOpponent(
+    override val columns: Int,
+    override val rows: Int,
+    override val ships: List<StudentShip>
+): BattleshipOpponent {
 
 
 
-    constructor(rows: Int, columns: Int, shipSizes: IntArray, random: Random) : this(
-        rows,
+    constructor(
+        columns: Int = BattleshipGrid.DEFAULT_COLUMNS,
+        rows: Int = BattleshipGrid.DEFAULT_ROWS,
+        shipSizes: IntArray = BattleshipGrid.DEFAULT_SHIP_SIZES,
+        random: Random = Random
+    ) : this(
         columns,
+        rows,
         randomShips(rows, columns, shipSizes, random)
     )
 
@@ -31,6 +41,11 @@ class MyBattleShipOpponent(override val rows: Int, override val columns: Int, ov
 
 }
 
+fun Ship.overlaps(other: Ship) : Boolean {
+    return right >= other.left && left <= other.right &&
+            bottom >= other.top && top <= other.bottom
+}
+
 
 fun randomShips(height: Int, width: Int, shipSizes: IntArray, random:Random): List<StudentShip> {
     val generatedShips = mutableListOf<StudentShip>()
@@ -40,58 +55,42 @@ fun randomShips(height: Int, width: Int, shipSizes: IntArray, random:Random): Li
         val maxTop = height - 1
         val maxLeft = width - size
 
-        var randomShip: StudentShip?
+        var randomShip: StudentShip
         do {
-            val top = (0..maxTop).random()
-            val left = (0..maxLeft).random()
-            val bottom = top
-            val right = left + size - 1
+            val isHorizontal = when {
+                width < size -> false
+                height < size -> true
+                else -> random.nextBoolean()
+            }
 
-            val overlaps = generatedShips.any { s ->
+            if (isHorizontal) {
+                val row = random.nextInt(height)
+                val left = random.nextInt(width - size +1)
+                val right = left + size - 1
+                randomShip = StudentShip(top = row, left = left, bottom = row, right = right)
+            } else {
+                val top = random.nextInt(height - size + 1)
+                val column = random.nextInt(width)
+                val bottom = top + size - 1
+                randomShip = StudentShip(top = top, left = column, bottom = bottom, right = column)
+            }
+
+
+            val overlaps = generatedShips.any { s -> s.overlaps(randomShip)
+/*
                 (top..bottom).intersect(s.top..s.bottom).isNotEmpty() &&
                         (left..right).intersect(s.left..s.right).isNotEmpty() &&
                         (s.top..s.bottom).intersect(top..bottom).isNotEmpty() &&
                         (s.left..s.right).intersect(left..right).isNotEmpty()
+*/
             }
 
-            if (!overlaps) {
-                randomShip = StudentShip(top, left, bottom, right)
-            } else {
-                randomShip = null
-            }
-        } while (randomShip == null)
+        } while (overlaps)
 
         generatedShips.add(randomShip)
     }
 
     // Generate vertical ships
-    for (size in shipSizes) {
-        val maxTop = height - size
-        val maxLeft = width - 1
-
-        var randomShip: StudentShip?
-        do {
-            val top = (0..maxTop).random()
-            val left = (0..maxLeft).random()
-            val bottom = top + size - 1
-            val right = left
-
-            val overlaps = generatedShips.any { s ->
-                (top..bottom).intersect(s.top..s.bottom).isNotEmpty() &&
-                        (left..right).intersect(s.left..s.right).isNotEmpty() &&
-                        (s.top..s.bottom).intersect(top..bottom).isNotEmpty() &&
-                        (s.left..s.right).intersect(left..right).isNotEmpty()
-            }
-
-            if (!overlaps) {
-                randomShip = StudentShip(top, left, bottom, right)
-            } else {
-                randomShip = null
-            }
-        } while (randomShip == null)
-
-        generatedShips.add(randomShip)
-    }
 
     return generatedShips
 }

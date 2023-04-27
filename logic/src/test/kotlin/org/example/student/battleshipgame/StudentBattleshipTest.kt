@@ -13,7 +13,7 @@ class StudentBattleshipTest : BattleshipTest</*YourShipType*/StudentShip>() {
         rows: Int,
         ships: List</*YourShipType*/StudentShip>
     ): /*YourOpponentType*/MyBattleShipOpponent{
-        return MyBattleShipOpponent(columns, rows, ships)
+        return MyBattleShipOpponent(columns = columns, rows = rows, ships = ships)
     }
 
     override fun transformShip(sourceShip: Ship): /*YourShipType*/StudentShip {
@@ -27,7 +27,12 @@ class StudentBattleshipTest : BattleshipTest</*YourShipType*/StudentShip>() {
         random: Random
     ): /* TODO YourOpponentType*/MyBattleShipOpponent {
         // Note that the passing of random allows for repeatable testing
-        return MyBattleShipOpponent(rows, columns,shipSizes,random)
+        return MyBattleShipOpponent(
+            columns = columns,
+            rows = rows,
+            shipSizes = shipSizes,
+            random = random
+        )
     }
 
     override fun createGrid(
@@ -37,9 +42,13 @@ class StudentBattleshipTest : BattleshipTest</*YourShipType*/StudentShip>() {
         // If the opponent is not a StudentBattleshipOpponent, create it based upon the passed in data
         val studentOpponent =
             opponent as? /*YourOpponentType*/BattleshipOpponent
-                ?: createOpponent(opponent.columns, opponent.rows, opponent.ships.map { it as? /*YourShipType*/StudentShip ?: transformShip(it) })
+                ?: createOpponent(
+                    columns = opponent.columns,
+                    rows = opponent.rows,
+                    ships = opponent.ships.map { it as? /*YourShipType*/StudentShip ?: transformShip(it) }
+                )
 
-        return TODO("Create a new grid instance with the opponent. E.g. <YourGridTypeBattleshipGrid>(studentOpponent)")
+        return StudentBattleShipGrid(studentOpponent)
     }
 }
 

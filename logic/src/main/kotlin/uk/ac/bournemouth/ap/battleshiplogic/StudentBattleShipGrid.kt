@@ -16,16 +16,14 @@ class StudentBattleShipGrid( override val opponent: BattleshipOpponent): Battles
     val dataGrid = MutableMatrix<GuessCell>(columns, rows, GuessCell.UNSET)
     //public var dataGrid: Array<Array<GuessCell>> = Array(rows) { Array(columns) { GuessCell.UNSET } }
     // Creates a boolean array intialized to false, based off the amount ships the oppnent has
-    override val shipsSunk: BooleanArray
-    get() = BooleanArray(opponent.ships.size)
-
-    //Return true if all ships in the array are sunk and ends the game
-    override val isFinished: Boolean get() = shipsSunk.all { it }
+    override val shipsSunk: BooleanArray = BooleanArray(opponent.ships.size)
 
     /*Check if the value is within the grid parameters, if not return Invalid Cell
     Return that postion on the Grid*/
     override fun get(column: Int, row: Int): GuessCell {
-        require(column in 0 until columns && row in 0 until rows) { "Invalid cell" }
+        require(column in 0 until columns && row in 0 until rows) {
+            "Invalid cell"
+        }
         //Note to self Use this to refer to a certain point on the grid
         return dataGrid[column,row]
     }
@@ -41,18 +39,37 @@ class StudentBattleShipGrid( override val opponent: BattleshipOpponent): Battles
 
     override fun shootAt(column: Int, row: Int): GuessResult {
         require(column in 0 until columns && row in 0 until rows) { "Invalid cell" }
-        val shipInfo = opponent.shipAt(column, row)
-        return if(shipInfo != null){
-            val shipIndex = shipInfo.index
-            dataGrid[column,row] = GuessCell.HIT(shipIndex)
-            GuessResult.HIT(shipIndex)
 
-        }else{
+        val shipInfo = opponent.shipAt(column, row)
+        if (shipInfo == null) {
             dataGrid[column,row] = GuessCell.MISS
+            fireGameChange(column, row)
             return GuessResult.MISS
 
+        } else {
+            val shipIndex = shipInfo.index
+            dataGrid[column,row] = GuessCell.HIT(shipIndex)
+
+            var shipSunk = true
+            shipInfo.ship.forEachIndex { x, y ->
+                if (dataGrid[x,y] !is GuessCell.HIT) shipSunk = false
+            }
+            if(! shipSunk) {
+                fireGameChange(column, row)
+                return GuessResult.HIT(shipIndex)
+            } else {
+
+                fireGameChange(column, row)
+                return GuessResult.SUNK(shipIndex)
+            }
         }
 
+    }
+
+    fun fireGameChange(column: Int, row: Int) {
+        for(listener in gameChangeListeners) {
+            listener.onGridChanged(this, column, row)
+        }
     }
     private val gameChangeListeners = mutableListOf<BattleshipGrid.BattleshipGridListener>()
 
