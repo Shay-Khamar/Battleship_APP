@@ -7,7 +7,7 @@ class MyBattleShipOpponent(override val rows: Int, override val columns: Int, ov
 
 
 
-    constructor(rows: Int, columns: Int, shipSizes: List<Int>,  random: Random) : this(
+    constructor(rows: Int, columns: Int, shipSizes: IntArray, random: Random) : this(
         rows,
         columns,
         randomShips(rows, columns, shipSizes, random)
@@ -16,7 +16,6 @@ class MyBattleShipOpponent(override val rows: Int, override val columns: Int, ov
 
 
 
-    val createOpponent = MyBattleShipOpponent(10, 10, ships)
 
     override fun shipAt(column: Int, row: Int): BattleshipOpponent.ShipInfo<StudentShip>? {
         val index = ships.indexOfFirst { it.columnIndices.contains(column) && it.rowIndices.contains(row) }
@@ -33,7 +32,7 @@ class MyBattleShipOpponent(override val rows: Int, override val columns: Int, ov
 }
 
 
-fun randomShips(height: Int, width: Int, shipSizes: List<Int>, random:Random): List<StudentShip> {
+fun randomShips(height: Int, width: Int, shipSizes: IntArray, random:Random): List<StudentShip> {
     val generatedShips = mutableListOf<StudentShip>()
 
     // Generate horizontal ships

@@ -56,13 +56,13 @@ class StudentBattleShipGrid( override val opponent: BattleshipOpponent): Battles
     }
     private val gameChangeListeners = mutableListOf<BattleshipGrid.BattleshipGridListener>()
 
-    override fun addOnGridChangeListener(listener: BattleshipGrid.BattleshipGridListener) {
+    override fun addOnGridChangeListener(listener: BattleshipGrid.BattleshipGridListener){
         if (listener !in gameChangeListeners) {
             gameChangeListeners.add(listener)
         }
     }
 
-        override fun removeOnGridChangeListener(listener: BattleshipGrid.BattleshipGridListener) {
+        override fun removeOnGridChangeListener(listener: BattleshipGrid.BattleshipGridListener){
             gameChangeListeners.remove(listener)
 
         }

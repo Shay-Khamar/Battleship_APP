@@ -1,6 +1,4 @@
 package org.example.student.battleshipgame
-import sun.jvm.hotspot.oops.CellTypeState.bottom
-import sun.jvm.hotspot.oops.CellTypeState.top
 import uk.ac.bournemouth.ap.battleshiplogic.StudentShip
 import uk.ac.bournemouth.ap.battleshiplib.*
 import uk.ac.bournemouth.ap.battleshiplib.test.BattleshipTest
@@ -41,7 +39,7 @@ class StudentBattleshipTest : BattleshipTest</*YourShipType*/StudentShip>() {
             opponent as? /*YourOpponentType*/BattleshipOpponent
                 ?: createOpponent(opponent.columns, opponent.rows, opponent.ships.map { it as? /*YourShipType*/StudentShip ?: transformShip(it) })
 
-        return<StudentBattleShipGrid>(opponent) //TODO("Create a new grid instance with the opponent. E.g. <YourGridTypeBattleshipGrid>(studentOpponent)")
+        return TODO("Create a new grid instance with the opponent. E.g. <YourGridTypeBattleshipGrid>(studentOpponent)")
     }
 }
 

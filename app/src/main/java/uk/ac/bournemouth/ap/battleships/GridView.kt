@@ -1,4 +1,5 @@
 package uk.ac.bournemouth.ap.battleships
+
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -7,16 +8,13 @@ import android.util.AttributeSet
 import android.view.View
 import uk.ac.bournemouth.ap.battleshiplib.GuessCell
 
-private const val COL_COUNT = 10
-private const val ROW_COUNT = 10
+private val COL_COUNT get() = 10
+private val ROW_COUNT get() = 10
 private var cellSize: Float = 0f
 private var cellSpacing: Float = 0f
 private var cellSpacingRatio: Float = 0.1f
 
-private var emptyCellPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-    style = Paint.Style.FILL
-    color = Color.WHITE
-}
+
 
 private var gridPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
     style = Paint.Style.FILL
@@ -27,6 +25,12 @@ private var shipPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
     style = Paint.Style.FILL
     color = Color.YELLOW
 }
+
+private var emptyCellPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    style = Paint.Style.FILL
+    color = Color.WHITE
+}
+
 private var hitPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
     style = Paint.Style.FILL
     color = Color.RED
@@ -43,17 +47,18 @@ private var selectedPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
 
 
 
-public class GameView: View {
+public class GridView: View {
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
             super(
-        context,
-        attrs,
-        defStyleAttr)
+                context,
+                attrs,
+                defStyleAttr)
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
+        recalculateDimensions(w,h)
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -96,5 +101,3 @@ public class GameView: View {
         cellSpacing = cellSize * cellSpacingRatio
     }
 }
-
-
