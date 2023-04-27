@@ -1,22 +1,45 @@
 package uk.ac.bournemouth.ap.battleships
-import android.view.View
 import android.content.Context
-import android.util.AttributeSet
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.Paint.Style
-import android.graphics.Typeface
+import android.util.AttributeSet
+import android.view.View
+import uk.ac.bournemouth.ap.battleshiplib.GuessCell
 
-private val colCount get() = opponent.column
-private val rowCount get() = 10
-private val squareSize = 200f
-private val margin = 50f
-private val cellSize = (squareSize - margin * 2) / 10
+private const val COL_COUNT = 10
+private const val ROW_COUNT = 10
+private var cellSize: Float = 0f
+private var cellSpacing: Float = 0f
+private var cellSpacingRatio: Float = 0.1f
 
-private val squareColour: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+private var emptyCellPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    style = Paint.Style.FILL
+    color = Color.WHITE
+}
+
+private var gridPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    style = Paint.Style.FILL
+    color = Color.GRAY
+}
+
+private var shipPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    style = Paint.Style.FILL
+    color = Color.YELLOW
+}
+private var hitPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    style = Paint.Style.FILL
+    color = Color.RED
+}
+private var missPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    style = Paint.Style.FILL
+    color = Color.WHITE
+}
+private var selectedPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
     style = Paint.Style.FILL
     color = Color.BLUE
 }
+
 
 
 
@@ -29,11 +52,49 @@ public class GameView: View {
         attrs,
         defStyleAttr)
 
-    override fun onSizeChanged(w: Int,  h: Int, oldw: Int, oldh: Int) {
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
     }
 
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        val gridLeft: Float = 0f
+        val gridTop: Float = 0f
+        val gridRight: Float = gridLeft + COL_COUNT * (cellSize + cellSpacing) + cellSpacing
+        val gridBottom: Float = gridTop + ROW_COUNT * (cellSize + cellSpacing) + cellSpacing
+        canvas.drawRect(gridLeft, gridTop, gridRight, gridBottom, gridPaint)
+
+        for (row in 0 until ROW_COUNT){
+
+            val cy = gridTop + cellSpacing + ((cellSize + cellSpacing) * row) + cellSize / 2f
+            for(col in 0 until COL_COUNT){
+
+                val paint =  emptyCellPaint
+
+                val cx = gridLeft + cellSpacing + ((cellSize + cellSpacing) * col) + cellSize / 2f
+
+                canvas.drawRect(
+                    cx - cellSize / 2f,
+                    cy - cellSize / 2f,
+                    cx + cellSize / 2f,
+                    cy + cellSize / 2f,
+                    paint
+                )
 
 
+            }
 
+        }
+
+
+    }
+
+    private fun recalculateDimensions(w: Int = width, h: Int = height){
+        val cellSizeX = w / (COL_COUNT + (COL_COUNT + 1) * cellSpacingRatio)
+        val cellSizeY = h / (ROW_COUNT + (ROW_COUNT + 1) * cellSpacingRatio)
+        cellSize = minOf(cellSizeX, cellSizeY)
+        cellSpacing = cellSize * cellSpacingRatio
+    }
 }
+
+

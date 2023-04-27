@@ -35,13 +35,13 @@ class StudentBattleshipTest : BattleshipTest</*YourShipType*/StudentShip>() {
     override fun createGrid(
         grid: BooleanMatrix,
         opponent: BattleshipOpponent
-    ): /* TODO YourGridType*/BattleshipGrid {
+    ): /* TODO YourGridType*/StudentBattleShipGrid {
         // If the opponent is not a StudentBattleshipOpponent, create it based upon the passed in data
         val studentOpponent =
             opponent as? /*YourOpponentType*/BattleshipOpponent
                 ?: createOpponent(opponent.columns, opponent.rows, opponent.ships.map { it as? /*YourShipType*/StudentShip ?: transformShip(it) })
 
-        return TODO("Create a new grid instance with the opponent. E.g. <YourGridTypeBattleshipGrid>(studentOpponent)")
+        return<StudentBattleShipGrid>(opponent) //TODO("Create a new grid instance with the opponent. E.g. <YourGridTypeBattleshipGrid>(studentOpponent)")
     }
 }
 
