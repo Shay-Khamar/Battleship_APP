@@ -39,7 +39,6 @@ class StudentBattleShipGrid( override val opponent: BattleshipOpponent): Battles
 
     override fun shootAt(column: Int, row: Int): GuessResult {
         require(column in 0 until columns && row in 0 until rows) { "Invalid cell" }
-
         val shipInfo = opponent.shipAt(column, row)
         if (shipInfo == null) {
             dataGrid[column,row] = GuessCell.MISS
@@ -61,6 +60,8 @@ class StudentBattleShipGrid( override val opponent: BattleshipOpponent): Battles
 
                 fireGameChange(column, row)
                 return GuessResult.SUNK(shipIndex)
+                shipInfo.ship.forEachIndex { x, y ->
+                    dataGrid[x,y] = GuessCell.SUNK(shipIndex)}
             }
         }
 
