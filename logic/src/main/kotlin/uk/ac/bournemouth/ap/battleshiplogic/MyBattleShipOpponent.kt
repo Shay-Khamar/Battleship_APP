@@ -11,6 +11,63 @@ class MyBattleShipOpponent(
 ): BattleshipOpponent {
 
 
+    init {
+        // Validate ships
+        val invalidShips = mutableListOf<StudentShip>()
+        for (i in 0 until ships.size) {
+            val ship1 = ships[i]
+            if (!isValidShip(ship1)) {
+                invalidShips.add(ship1)
+                continue
+            }
+            for (j in i+1 until ships.size) {
+                val ship2 = ships[j]
+                if (ship1.overlaps(ship2)) {
+                    invalidShips.add(ship1)
+                    invalidShips.add(ship2)
+                    break
+                }
+            }
+        }
+        if (invalidShips.isNotEmpty()) {
+            throw IllegalArgumentException("Invalid ships detected: $invalidShips")
+        }
+    }
+
+
+    private fun isValidShip(ship: StudentShip): Boolean {
+        // Check ship position is within grid boundaries
+        if (ship.left < 0 || ship.right >= columns || ship.top < 0 || ship.bottom >= rows) {
+            return false
+        }
+
+        // Check ship size matches its position
+        val size = when {
+            ship.left == ship.right -> ship.bottom - ship.top + 1 // vertical ship
+            ship.top == ship.bottom -> ship.right - ship.left + 1 // horizontal ship
+            else -> return false // invalid orientation
+        }
+        if (size != ship.size) {
+            return false
+        }
+
+        // Check ship does not overlap with any other ships
+        for (otherShip in ships) {
+            if (ship != otherShip && ship.overlaps(otherShip)) {
+                return false
+            }
+        }
+
+        return true
+    }
+
+
+
+
+
+
+
+
 
     constructor(
         columns: Int = BattleshipGrid.DEFAULT_COLUMNS,
@@ -22,6 +79,9 @@ class MyBattleShipOpponent(
         rows,
         randomShips(rows, columns, shipSizes, random)
     )
+
+
+
 
 
 
@@ -41,7 +101,7 @@ class MyBattleShipOpponent(
 
 }
 
-fun Ship.overlaps(other: Ship) : Boolean {
+  fun Ship.overlaps(other: Ship) : Boolean {
     return right >= other.left && left <= other.right &&
             bottom >= other.top && top <= other.bottom
 }
@@ -77,12 +137,6 @@ fun randomShips(height: Int, width: Int, shipSizes: IntArray, random:Random): Li
 
 
             val overlaps = generatedShips.any { s -> s.overlaps(randomShip)
-/*
-                (top..bottom).intersect(s.top..s.bottom).isNotEmpty() &&
-                        (left..right).intersect(s.left..s.right).isNotEmpty() &&
-                        (s.top..s.bottom).intersect(top..bottom).isNotEmpty() &&
-                        (s.left..s.right).intersect(left..right).isNotEmpty()
-*/
             }
 
         } while (overlaps)
@@ -95,13 +149,5 @@ fun randomShips(height: Int, width: Int, shipSizes: IntArray, random:Random): Li
     return generatedShips
 }
 
-/** I don't want to hard code the the ship therefore I want to only give it the Top(row) value
-and depending on the orientation feed it the size(column)* */
-/**val ship = listOf(
-StudentShip(0, 0, 0, 4),/** a horizontal ship of length 5 at row 0, columns 0-4*/
-StudentShip(2, 3, 6, 3),/**a vertical ship of length 4 at rows 2-5, column 3*/
-StudentShip(4, 4,6,4),
-StudentShip(0, 6, 2, 6),
-StudentShip(3, 9,4, 9))*/
 
 

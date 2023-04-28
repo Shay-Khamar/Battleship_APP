@@ -10,11 +10,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var startButton = findViewById<Button>(R.id.startButton)
-        startButton.setOnClickListener{
-            val intent = Intent(this, GridView::class.java)
-            startActivity(intent)
-        }
+
 
     }
 }
